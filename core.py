@@ -43,7 +43,7 @@ class Game:
 		print("Game is over! Nobody wons")
 
 #input string must accords to template: 1 2
-def is_correct_turn(string, width, height):
+def is_correct_turn(string, width, height, filled_bounds):
 	string = string.split()
 	
 	if len(string) != 2:
@@ -52,12 +52,16 @@ def is_correct_turn(string, width, height):
 		return 0
 	elif (int(string[0]) > height or int(string[0]) <= 0) or (int(string[1]) > width or int(string[1]) <= 0):
 		return 0
-	
+	elif filled_bounds[int(string[0]) - 1][int(string[1]) - 1] != "_":
+		return 0
+
 	return 1
 
-def game_analyze(Game, filled_bounds):
+def game_analyze(Game, field, filled_bounds):
 	result = ai.field_analyze(filled_bounds).split()
-	if result[0] == "pat":
+	field.show(filled_bounds)
+
+	if result[0] == "pat":	
 		Game.pat()
 		return 0
 
@@ -91,21 +95,19 @@ field.show(filled_bounds)
 while game.condition != condition_stop:
 	man_turn = input("Your turn: ")
 	
-	while not is_correct_turn(man_turn, field.width, field.height):
+	while not is_correct_turn(man_turn, field.width, field.height, filled_bounds):
 		man_turn = input("Incorrect turn input(example: 1 2). Try again: ")
 	
 	man_turn = man_turn.split()
 	turn_row = (int(man_turn[0]) - 1)
 	turn_col = (int(man_turn[1]) - 1)
 	filled_bounds[turn_row][turn_col] = "X"
-	field.show(filled_bounds)
 
-	if game_analyze(game, filled_bounds) == condition_stop:
+	if game_analyze(game, field, filled_bounds) == condition_stop:
 		break
 
 	ai_turn = ai.turn(filled_bounds, ai_field)
 	filled_bounds[ai_turn[0]][ai_turn[1]] = "O"
-	field.show(filled_bounds)
 
-	if game_analyze(game, filled_bounds) == condition_stop:
+	if game_analyze(game, field, filled_bounds) == condition_stop:
 		break
