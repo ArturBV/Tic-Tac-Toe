@@ -93,7 +93,7 @@ game.begin()
 field.show(filled_bounds)
 
 while game.condition != condition_stop:
-	man_turn = input("Your turn: ")
+	man_turn = input("Your turn(row, column): ")
 	
 	while not is_correct_turn(man_turn, field.width, field.height, filled_bounds):
 		man_turn = input("Incorrect turn input(example: 1 2). Try again: ")
