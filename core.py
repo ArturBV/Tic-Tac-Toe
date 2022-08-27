@@ -40,7 +40,7 @@ class Game:
 		print(f"{winner} won!")
 
 	def pat(self):
-		print("Game is over! Nobody wons")
+		print("Game over! Nobody wons")
 
 #input string must accords to template: 1 2
 def is_correct_turn(string, width, height, filled_bounds):
@@ -79,8 +79,6 @@ def game_analyze(Game, field, filled_bounds):
 bots = ["Andrey_AI", "Henry_AI", "Bob_AI", "Eugene_AI"]
 condition_start = 1
 condition_stop = 0
-
-field = Field(3, 3)
 filled_bounds = [["_", "_", "_"],
 				 ["_", "_", "_"],
 				 ["_", "_", "_"]]
@@ -88,26 +86,29 @@ ai_field = [[1, 1, 1],
 			[1, 1, 1],
 			[1, 1, 1]]
 
-game = Game(condition_start, field)
-game.begin()
-field.show(filled_bounds)
+if __name__ == "__main__":
+	field = Field(3, 3)
 
-while game.condition != condition_stop:
-	man_turn = input("Your turn(row, column): ")
-	
-	while not is_correct_turn(man_turn, field.width, field.height, filled_bounds):
-		man_turn = input("Incorrect turn input(example: 1 2). Try again: ")
-	
-	man_turn = man_turn.split()
-	turn_row = (int(man_turn[0]) - 1)
-	turn_col = (int(man_turn[1]) - 1)
-	filled_bounds[turn_row][turn_col] = "X"
+	game = Game(condition_start, field)
+	game.begin()
+	field.show(filled_bounds)
 
-	if game_analyze(game, field, filled_bounds) == condition_stop:
-		break
+	while game.condition != condition_stop:
+		man_turn = input("Your turn(row, column): ")
+		
+		while not is_correct_turn(man_turn, field.width, field.height, filled_bounds):
+			man_turn = input("Incorrect turn input(example: 1 2). Try again: ")
+		
+		man_turn = man_turn.split()
+		turn_row = (int(man_turn[0]) - 1)
+		turn_col = (int(man_turn[1]) - 1)
+		filled_bounds[turn_row][turn_col] = "X"
 
-	ai_turn = ai.turn(filled_bounds, ai_field)
-	filled_bounds[ai_turn[0]][ai_turn[1]] = "O"
+		if game_analyze(game, field, filled_bounds) == condition_stop:
+			break
 
-	if game_analyze(game, field, filled_bounds) == condition_stop:
-		break
+		ai_turn = ai.turn(filled_bounds, ai_field)
+		filled_bounds[ai_turn[0]][ai_turn[1]] = "O"
+
+		if game_analyze(game, field, filled_bounds) == condition_stop:
+			break
