@@ -1,5 +1,5 @@
 # Tic-Tac-Toe
-Console game.
+Console game.  
 Launch:
 ```
 python3 core.py 
